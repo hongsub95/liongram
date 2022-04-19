@@ -20,18 +20,15 @@ def home(request):
 def QnA(request):
     QnAs = models.QnA.objects.all()
     if request.method == "POST":
-        title = request.POST["title"]
-        cate = request.POST["category"]
-        contents = request.POST["contents"]
-        message = request.POST["message"]
-        email = request.POST["email"]
-        QnA = models.QnA.objects.create(
-            title=title, contents=contents, message=message, email=email
-        )
-
-        return HttpResponseRedirect(reverse("posts"))
-    else:
-        return render(request, "posts/QnA.html", {"QnAs": QnAs})
+        title = request.POST.get("title")
+        cate = request.POST.get("category")
+        contents = request.POST.get("contents")
+        message = request.POST.get("message")
+        email = request.POST.get("email")
+        qna = models.QnA(title=title, contents=contents, message=message, email=email)
+        qna.save()
+        return redirect("posts:QnA_detail", qna.pk)
+    return render(request, "posts/QnA.html", {"QnAs": QnAs})
 
 
 class QnA_detail(DetailView):
@@ -39,4 +36,10 @@ class QnA_detail(DetailView):
 
 
 def Comment(request):
-    pass
+    if request.method == "POST":
+        content = request.POST["content"]
+        comments = models.Comment(content=content)
+        comments.save()
+        return HttpResponseRedirect(reverse("posts"))
+    else:
+        return render(request, "posts/comment.html")

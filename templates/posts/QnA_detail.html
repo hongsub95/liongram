@@ -15,6 +15,6 @@
     {{qna.comment}}
     {% endif %}
         
-    <a href="#">댓글 달기</a>
+    <a href="{% url 'posts:comment' qna.pk%}">댓글 달기</a>
 </body>
 </html>

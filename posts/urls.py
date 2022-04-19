@@ -6,5 +6,5 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("QnA/", views.QnA, name="QnA"),
     path("int:<pk>/", views.QnA_detail.as_view(), name="QnA_detail"),
-    path("comment/", views.Comment, name="comment"),
+    path("int:<pk>/comment/", views.Comment, name="comment"),
 ]
