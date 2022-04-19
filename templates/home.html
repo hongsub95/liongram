@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles/style.css" rel="stylesheet" >
+    <title>
+    Liongram
+    </title>
+</head>
+<body >
+    <div>
+        <h1> Welcome to Liongram</h1>
+    </div>
+    <table class ="text-center">
+        <thead>
+            <tr> 
+                <th>제목</th>
+                <th>조회수</th>
+                <th>댓글수</th>
+                <th>작성일자</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for QnA in QnA_list %}
+                    <td>
+                        <a href="{% url 'posts:QnA_detail' QnA.pk %}">
+                            <span>{{QnA.title }}</span>
+                        </a>
+                    </td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>{{QnA.updated}}</td>
+                {% endfor %}
+            </tr>
+
+        </tbody>
+    </table>
+    <div class = "mb-4">
+        <a href="{% url 'posts:QnA' %}">문의하기</a>
+    </div>
+</body>
+</html>
