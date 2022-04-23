@@ -6,15 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-
-    {{qna.title}}
-    </br>
-    {{qna.contents}}
-    
-    {% if qna.comment is not None %}
-    {{qna.comment}}
-    {% endif %}
-        
-    <a href="{% url 'posts:comment' qna.pk%}">댓글 달기</a>
+<body>
+    제목 : {{qna.title}}
+    <hr/>
+    내용 : {{qna.contents}}
+    <hr/>
+    <p><b>댓글 목록</b></p>
+    {% for c in qna.Comment.all  %}
+        <li>{{c.comment}}</li>
+    {% empty %}
+        <p>아직 댓글이 없습니다.</p>
+    {% endfor %}
+    <hr/>
+    <a href="{% url 'posts:comment' qna.pk %}">댓글 달기</a>
 </body>
 </html>

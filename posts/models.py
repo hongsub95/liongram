@@ -29,7 +29,10 @@ class QnA(models.Model):
         blank=True,
     )
     comment = models.ManyToManyField(
-        "Comment", related_name="QnA", blank=True, verbose_name="댓글"
+        "Comment",
+        related_name="QnA",
+        blank=True,
+        verbose_name="댓글",
     )
 
     class Meta:
@@ -40,6 +43,14 @@ class QnA(models.Model):
 
 
 class Comment(models.Model):
+    qna = models.ForeignKey(
+        "QnA",
+        related_name="Comment",
+        null=True,
+        blank=True,
+        verbose_name="게시글",
+        on_delete=models.CASCADE,
+    )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     comment = models.CharField(max_length=300)

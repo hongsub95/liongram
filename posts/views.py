@@ -1,9 +1,10 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage
 from django.views.generic import DetailView
 from . import models
+from . import forms
 
 
 def home(request):
@@ -35,11 +36,11 @@ class QnA_detail(DetailView):
     model = models.QnA
 
 
-def Comment(request):
-    if request.method == "POST":
-        content = request.POST["content"]
-        comments = models.Comment(content=content)
-        comments.save()
-        return HttpResponseRedirect(reverse("posts"))
-    else:
-        return render(request, "posts/comment.html")
+def Comment(request, qna_pk):
+    Comment = forms.CommentForm(request.POST)
+    if Comment.is_valid():
+        comment = Comment.save(commit=False)
+        comment.qna = get_object_or_404(models.QnA, pk=qna_pk)
+        comment.save()
+        return redirect("posts:QnA_detail", qna_pk)
+    return render(request, "posts/comment.html", {"Comment": Comment})
