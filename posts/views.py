@@ -32,6 +32,10 @@ def QnA(request):
     return render(request, "posts/QnA.html", {"QnAs": QnAs})
 
 
+class QnA_detail(DetailView):
+    model = models.QnA
+
+
 class QnAUpdateView(UpdateView):
     model = models.QnA
     template_name = "posts/QnA_Edit.html"
@@ -48,8 +52,10 @@ class QnAUpdateView(UpdateView):
         return qna
 
 
-class QnA_detail(DetailView):
-    model = models.QnA
+def QnA_delete(self, qna_id):
+    qna = models.QnA.objects.get(pk=qna_id)
+    qna.delete()
+    return redirect("/")
 
 
 def Comment(request, qna_pk):

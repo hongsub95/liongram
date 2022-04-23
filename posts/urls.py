@@ -8,4 +8,5 @@ urlpatterns = [
     path("int:<pk>/", views.QnA_detail.as_view(), name="QnA_detail"),
     path("int:<qna_pk>/comment/", views.Comment, name="comment"),
     path("int:<pk>/edit/", views.QnAUpdateView.as_view(), name="QnA_edit"),
+    path("int:<qna_id>/delete", views.QnA_delete, name="QnA_delete"),
 ]
