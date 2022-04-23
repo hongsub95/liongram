@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage
-from django.views.generic import DetailView
+from django.views.generic import DetailView, UpdateView
 from . import models
 from . import forms
 
@@ -32,6 +32,22 @@ def QnA(request):
     return render(request, "posts/QnA.html", {"QnAs": QnAs})
 
 
+class QnAUpdateView(UpdateView):
+    model = models.QnA
+    template_name = "posts/QnA_Edit.html"
+    fields = (
+        "title",
+        "contents",
+        "message",
+        "email",
+    )
+    success_url = "/"
+
+    def get_object(self):
+        qna = get_object_or_404(models.QnA, pk=self.kwargs["pk"])
+        return qna
+
+
 class QnA_detail(DetailView):
     model = models.QnA
 
@@ -44,3 +60,11 @@ def Comment(request, qna_pk):
         comment.save()
         return redirect("posts:QnA_detail", qna_pk)
     return render(request, "posts/comment.html", {"Comment": Comment})
+
+
+def Comment_delete(request):
+    pass
+
+
+def Comment_edit(request):
+    pass

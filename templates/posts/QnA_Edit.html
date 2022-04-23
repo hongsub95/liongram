@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QnA</title>
+</head>
+<body>
+    <form method="post">
+    {% csrf_token %}
+        <div>
+            <label for="id_title">제목</label>
+            <input type="text"  id = "id_title" name = "title">
+        </div>
+        <div>
+            <label for="id_email">이메일</label>
+            <input type="text" id = "id_email" name = "email">
+        </div>
+        <div>
+            <label for="id_message">문자메시지</label>
+            <input type="text"  id = "id_message" name = "message">
+        </div>
+        <div>
+            <label for="id_contents" cols="40", rows="8">내용</label>
+            <textarea name="contents" id="id_contents" rows="5"></textarea>
+        </div>
+        <button type = "submit" >수정 완료</button>
+    </form>
+</body>
+</html>
