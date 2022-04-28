@@ -1,8 +1,9 @@
+from ssl import ALERT_DESCRIPTION_ACCESS_DENIED
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.core.paginator import Paginator, EmptyPage
-from django.views.generic import DetailView, UpdateView
+from django.views.generic import DetailView, UpdateView, DeleteView
 from . import models
 from . import forms
 
@@ -35,6 +36,10 @@ def QnA(request):
 class QnA_detail(DetailView):
     model = models.QnA
 
+    def get_object(self):
+        qna = get_object_or_404(models.QnA, pk=self.kwargs["pk"])
+        return qna
+
 
 class QnAUpdateView(UpdateView):
     model = models.QnA
@@ -45,15 +50,18 @@ class QnAUpdateView(UpdateView):
         "message",
         "email",
     )
-    success_url = "/"
+
+    def get_success_url(self):
+        qna_pk = self.kwargs.get("qna_pk")
+        return reverse("posts:QnA_detail", kwargs={"pk": qna_pk})
 
     def get_object(self):
-        qna = get_object_or_404(models.QnA, pk=self.kwargs["pk"])
+        qna = get_object_or_404(models.QnA, pk=self.kwargs["qna_pk"])
         return qna
 
 
-def QnA_delete(self, qna_id):
-    qna = models.QnA.objects.get(pk=qna_id)
+def QnA_delete(request, qna_pk):
+    qna = models.QnA.objects.get(pk=qna_pk)
     qna.delete()
     return redirect("/")
 
@@ -68,9 +76,30 @@ def Comment(request, qna_pk):
     return render(request, "posts/comment.html", {"Comment": Comment})
 
 
-def Comment_delete(request):
-    pass
+class Comment_Delete(DeleteView):
+    model = models.Comment
+
+    def get_success_url(self):
+        qna_pk = self.kwargs.get("qna_pk")
+        return reverse("posts:QnA_detail", kwargs={"pk": qna_pk})
+
+    def get_object(self):
+        comment = get_object_or_404(models.Comment, pk=self.kwargs["comment_pk"])
+        return comment
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
 
 
-def Comment_edit(request):
-    pass
+def Comment_edit(request, qna_pk, comment_pk):
+    Comment = models.Comment.objects.get(pk=comment_pk)
+    return render(
+        request, "posts/comment_edit.html", {"Comment": Comment, "qna_pk": qna_pk}
+    )
+
+
+def Comment_update(request, qna_pk, comment_pk):
+    Comment = models.Comment.objects.get(pk=comment_pk)
+    Comment.comment = request.POST.get("comment")
+    Comment.save()
+    return redirect(reverse("posts:QnA_detail", kwargs={"pk": qna_pk}))

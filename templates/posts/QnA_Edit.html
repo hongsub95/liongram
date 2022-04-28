@@ -6,7 +6,7 @@
     <title>QnA</title>
 </head>
 <body>
-    <form method="post">
+    <form method="post" action="{% url 'posts:QnA_edit' qna.pk %}">
     {% csrf_token %}
         <div>
             <label for="id_title">제목</label>
@@ -18,7 +18,7 @@
         </div>
         <div>
             <label for="id_message">문자메시지</label>
-            <input type="text"  id = "id_message" name = "message">
+            <input type="text" id = "id_message" name = "message">
         </div>
         <div>
             <label for="id_contents" cols="40", rows="8">내용</label>
