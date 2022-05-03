@@ -12,7 +12,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(models.QnA)
 class FAQAdmin(admin.ModelAdmin):
-    list_display = ("title", "created", "category", "comment")
+    list_display = ("title", "created", "category", "comment", "status")
 
     def comment(self, obj):
         c = obj.comment.all()

@@ -17,6 +17,15 @@
             <input type="text" id = "id_email" name = "email">
         </div>
         <div>
+            <label for="id_cate">카테고리</label>
+            <select name="category" id="id_cate">
+                {% for c in category %}
+                    <option value="{{c}}">{{c}}</option>
+                {% endfor %}
+                
+            </select>
+        </div>
+        <div>
             <label for="id_message">문자메시지</label>
             <input type="text" id = "id_message" name = "message">
         </div>

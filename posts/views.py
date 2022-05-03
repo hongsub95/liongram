@@ -21,16 +21,29 @@ def home(request):
 
 def QnA(request):
     QnAs = models.QnA.objects.all()
+    category = models.Categories.objects.all()
     if request.method == "POST":
         title = request.POST.get("title")
         cate = request.POST.get("category")
         contents = request.POST.get("contents")
         message = request.POST.get("message")
         email = request.POST.get("email")
-        qna = models.QnA(title=title, contents=contents, message=message, email=email)
+        category = models.Categories(cate=cate)
+        category.save()
+        qna = models.QnA(
+            title=title,
+            contents=contents,
+            category=category,
+            message=message,
+            email=email,
+        )
         qna.save()
         return redirect("posts:QnA_detail", qna.pk)
-    return render(request, "posts/QnA.html", {"QnAs": QnAs})
+    return render(
+        request,
+        "posts/QnA.html",
+        {"QnAs": QnAs, "category": category},
+    )
 
 
 class QnA_detail(DetailView):
@@ -51,9 +64,19 @@ class QnAUpdateView(UpdateView):
         "email",
     )
 
+    def get_context_data(self, **kwargs):
+        context = super(QnAUpdateView, self).get_context_data(**kwargs)
+        context["category"] = models.Categories.objects.all()
+        return context
+
     def get_success_url(self):
         qna_pk = self.kwargs.get("qna_pk")
-        return reverse("posts:QnA_detail", kwargs={"pk": qna_pk})
+        return reverse(
+            "posts:QnA_detail",
+            kwargs={
+                "pk": qna_pk,
+            },
+        )
 
     def get_object(self):
         qna = get_object_or_404(models.QnA, pk=self.kwargs["qna_pk"])

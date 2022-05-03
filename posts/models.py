@@ -14,12 +14,27 @@ class Categories(models.Model):
 
 
 class QnA(models.Model):
+
+    STATUS_PENDING = "pending"  # 문의등록
+    STATUS_CONFIRMED = "confirmed"  # 접수완료
+    STATUS_ANSWERED = "answered"  # 답변완료
+
+    STATUS_CHOICE = (
+        (STATUS_PENDING, "pending"),
+        (STATUS_CONFIRMED, "confirmed"),
+        (STATUS_ANSWERED, "answered"),
+    )
     created = models.DateTimeField(auto_now_add=True)  # 생성일자
     updated = models.DateTimeField(auto_now=True)  # 수정일자
     title = models.CharField(max_length=50, verbose_name="제목")
     contents = models.TextField(verbose_name="내용")
     message = models.IntegerField()
+    is_phone = models.BooleanField(default=False)
+    is_email = models.BooleanField(default=False)
     email = models.EmailField(max_length=100)
+    status = models.CharField(
+        max_length=12, choices=STATUS_CHOICE, default=STATUS_PENDING, verbose_name="상태"
+    )
     category = models.ForeignKey(
         "Categories",
         related_name="QnA",
