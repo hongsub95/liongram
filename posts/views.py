@@ -1,3 +1,4 @@
+from random import choices
 from ssl import ALERT_DESCRIPTION_ACCESS_DENIED
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
@@ -9,31 +10,36 @@ from . import forms
 
 
 def home(request):
-    QnA_list = models.QnA.objects.all()
+    QnA_list = models.QnA.objects.all().order_by("-created")
     paginator = Paginator(QnA_list, 10)
     page_number = request.GET.get("page")
     try:
         QnA = paginator.get_page(page_number)
-        return render(request, "home.html", {"QnA": QnA, "QnA_list": QnA_list})
+        return render(
+            request,
+            "home.html",
+            {"QnA": QnA, "QnA_list": QnA_list},
+        )
     except EmptyPage:
         return redirect("/")
 
 
 def QnA(request):
-    QnAs = models.QnA.objects.all()
-    category = models.Categories.objects.all()
+    QnA_form = forms.CategoryForm()
     if request.method == "POST":
         title = request.POST.get("title")
         cate = request.POST.get("category")
+        is_email = request.POST.get("is_email")
+        is_phone = request.POST.get("is_phone")
         contents = request.POST.get("contents")
         message = request.POST.get("message")
         email = request.POST.get("email")
-        category = models.Categories(cate=cate)
-        category.save()
         qna = models.QnA(
             title=title,
             contents=contents,
-            category=category,
+            category=cate,
+            is_email=is_email,
+            is_phone=is_phone,
             message=message,
             email=email,
         )
@@ -42,7 +48,7 @@ def QnA(request):
     return render(
         request,
         "posts/QnA.html",
-        {"QnAs": QnAs, "category": category},
+        {"QnA_form": QnA_form, "QnA": QnA},
     )
 
 
@@ -60,13 +66,14 @@ class QnAUpdateView(UpdateView):
     fields = (
         "title",
         "contents",
+        "category",
         "message",
         "email",
     )
 
     def get_context_data(self, **kwargs):
         context = super(QnAUpdateView, self).get_context_data(**kwargs)
-        context["category"] = models.Categories.objects.all()
+        context["category"] = forms.CategoryForm
         return context
 
     def get_success_url(self):

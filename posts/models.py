@@ -3,45 +3,78 @@ from django.db import models
 # Create your models here.
 
 
-class Categories(models.Model):
-    cate = models.CharField(max_length=50)
+class FAQ(models.Model):
+
+    CATEGORY_NORMAL = "일반"
+    CATEGORY_USERS = "계정"
+    CATEGORY_ETC = "기타"
+    CATEGORY_CHOICE = (
+        (CATEGORY_NORMAL, "일반"),
+        (CATEGORY_USERS, "계정"),
+        (CATEGORY_ETC, "기타"),
+    )
+
+    created = models.DateTimeField(auto_now_add=True)  # 생성일자
+    updated = models.DateTimeField(auto_now=True)  # 수정일자
+    contents = models.TextField(verbose_name="내용")
+    title = models.CharField(max_length=50, verbose_name="제목")
+    category = models.CharField(
+        max_length=12,
+        choices=CATEGORY_CHOICE,
+        default=CATEGORY_NORMAL,
+        verbose_name="카테고리",
+    )
+    comment = models.ForeignKey(
+        "Comment",
+        related_name="FAQ",
+        on_delete=models.DO_NOTHING,
+        null=True,
+        blank=True,
+        verbose_name="댓글",
+    )
 
     class Meta:
-        verbose_name_plural = "카테고리"
+        verbose_name_plural = "자주묻는질문"
 
     def __str__(self):
-        return f"{self.cate}"
+        return self.title
 
 
 class QnA(models.Model):
 
-    STATUS_PENDING = "pending"  # 문의등록
-    STATUS_CONFIRMED = "confirmed"  # 접수완료
-    STATUS_ANSWERED = "answered"  # 답변완료
+    STATUS_PENDING = "문의등록"
+    STATUS_CONFIRMED = "접수완료"
+    STATUS_ANSWERED = "답변완료"
 
     STATUS_CHOICE = (
-        (STATUS_PENDING, "pending"),
-        (STATUS_CONFIRMED, "confirmed"),
-        (STATUS_ANSWERED, "answered"),
+        (STATUS_PENDING, "문의등록"),
+        (STATUS_CONFIRMED, "접수완료"),
+        (STATUS_ANSWERED, "답변완료"),
+    )
+    CATEGORY_NORMAL = "일반"
+    CATEGORY_USERS = "계정"
+    CATEGORY_ETC = "기타"
+    CATEGORY_CHOICE = (
+        (CATEGORY_NORMAL, "일반"),
+        (CATEGORY_USERS, "계정"),
+        (CATEGORY_ETC, "기타"),
     )
     created = models.DateTimeField(auto_now_add=True)  # 생성일자
     updated = models.DateTimeField(auto_now=True)  # 수정일자
     title = models.CharField(max_length=50, verbose_name="제목")
     contents = models.TextField(verbose_name="내용")
-    message = models.IntegerField()
-    is_phone = models.BooleanField(default=False)
-    is_email = models.BooleanField(default=False)
-    email = models.EmailField(max_length=100)
+    message = models.IntegerField(verbose_name="메세지")
+    is_phone = models.BooleanField(default=False, null=True, verbose_name="핸드폰 수신")
+    is_email = models.BooleanField(default=False, null=True, verbose_name="이메일 수신")
+    email = models.EmailField(max_length=100, verbose_name="이메일")
     status = models.CharField(
         max_length=12, choices=STATUS_CHOICE, default=STATUS_PENDING, verbose_name="상태"
     )
-    category = models.ForeignKey(
-        "Categories",
-        related_name="QnA",
-        on_delete=models.DO_NOTHING,
+    category = models.CharField(
+        max_length=12,
+        choices=CATEGORY_CHOICE,
+        default=CATEGORY_NORMAL,
         verbose_name="카테고리",
-        null=True,
-        blank=True,
     )
     comment = models.ManyToManyField(
         "Comment",

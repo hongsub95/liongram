@@ -4,15 +4,24 @@ from . import models
 # Register your models here.
 
 
-@admin.register(models.Categories)
-class CategoryAdmin(admin.ModelAdmin):
-    field = "cate"
-    ordering = ["cate"]
+@admin.register(models.FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    list_display = ("title", "category", "created")
+    list_filter = ("category",)
 
 
 @admin.register(models.QnA)
-class FAQAdmin(admin.ModelAdmin):
-    list_display = ("title", "created", "category", "comment", "status")
+class InquiryAdmin(admin.ModelAdmin):
+    list_display = (
+        "title",
+        "created",
+        "category",
+        "status",
+        "is_email",
+        "is_phone",
+    )
+    list_filter = ("category",)
+    search_fields = ["title", "email", "message"]
 
     def comment(self, obj):
         c = obj.comment.all()

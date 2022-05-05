@@ -39,7 +39,7 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 ]
-PROJECT_APPS = ["posts.apps.PostsConfig"]
+PROJECT_APPS = ["posts.apps.PostsConfig", "users.apps.UsersConfig"]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
 
