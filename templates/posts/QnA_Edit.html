@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QnA</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
     <form method="post" action="{% url 'posts:QnA_edit' qna.pk %}">
-    {% csrf_token %}
+        {% csrf_token %}
         <div>
             <label for="id_title">제목</label>
             <input type="text"  id = "id_title" name = "title">
@@ -15,7 +9,7 @@
         <div>
             <label for="id_email">이메일</label>
             <input type="text" id = "id_email" name = "email">
-            <input type="checkbox" checked = "true">
+            <input type="checkbox" checked = "False">
             <label for="id_is_email">이메일 수신</label>
         </div>
         <div>
@@ -24,7 +18,7 @@
         <div>
             <label for="id_message">문자메시지</label>
             <input type="text" id = "id_message" name = "message">
-            <input type="checkbox" checked = "true">
+            <input type="checkbox" checked = "False">
             <label for="id_is_phone">문자메세지 수신</label>
         </div>
         <div>
@@ -32,6 +26,6 @@
             <textarea name="contents" id="id_contents" rows="5"></textarea>
         </div>
         <button type = "submit" >수정 완료</button>
-    </form> `
-</body>
-</html>
+    </form> 
+{% endblock content %}
+

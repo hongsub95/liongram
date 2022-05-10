@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,12 @@
     <title>liongram</title>
 </head>
 <body>
+    <header>
+        <a href="{% url 'posts:home' %}">Liongram</a>
+    </header>
     
+    {% block content %}
+    {% endblock content %}
+        
 </body>
-</html>
+</html> 

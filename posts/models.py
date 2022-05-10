@@ -59,13 +59,28 @@ class QnA(models.Model):
         (CATEGORY_USERS, "계정"),
         (CATEGORY_ETC, "기타"),
     )
+    Is_true = True
+    Is_False = False
+    Is_choice = ((Is_true, "예"), (Is_False, "아니요"))
     created = models.DateTimeField(auto_now_add=True)  # 생성일자
     updated = models.DateTimeField(auto_now=True)  # 수정일자
     title = models.CharField(max_length=50, verbose_name="제목")
     contents = models.TextField(verbose_name="내용")
-    message = models.IntegerField(verbose_name="메세지")
-    is_phone = models.BooleanField(default=False, null=True, verbose_name="핸드폰 수신")
-    is_email = models.BooleanField(default=False, null=True, verbose_name="이메일 수신")
+    message = models.IntegerField(verbose_name="번호")
+    is_phone = models.BooleanField(
+        default=Is_False,
+        blank=True,
+        null=True,
+        choices=Is_choice,
+        verbose_name="핸드폰 수신",
+    )
+    is_email = models.BooleanField(
+        default=Is_False,
+        blank=True,
+        null=True,
+        choices=Is_choice,
+        verbose_name="이메일 수신",
+    )
     email = models.EmailField(max_length=100, verbose_name="이메일")
     status = models.CharField(
         max_length=12, choices=STATUS_CHOICE, default=STATUS_PENDING, verbose_name="상태"
@@ -102,3 +117,6 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     comment = models.CharField(max_length=300)
+
+    class Meta:
+        verbose_name_plural = "답변"

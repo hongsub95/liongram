@@ -8,6 +8,20 @@ class CommentForm(forms.ModelForm):
         fields = ["comment"]
 
 
+class QnACreateForm(forms.ModelForm):
+    class Meta:
+        model = models.QnA
+        fields = [
+            "title",
+            "contents",
+            "message",
+            "email",
+            "is_phone",
+            "is_email",
+            "category",
+        ]
+
+
 class CategoryForm(forms.ModelForm):
     CATEGORY_NORMAL = "일반"
     CATEGORY_USERS = "계정"

@@ -1,5 +1,6 @@
 module.exports = {
-  content: [],
+  prefix:'t-',
+  content: ["./**/templates/**/*.{html,js}"],
   theme: {
     extend: {},
   },

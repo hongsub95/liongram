@@ -1,7 +1,12 @@
+from dataclasses import field
 from django.contrib import admin
 from . import models
 
 # Register your models here.
+
+
+class CommentInline(admin.TabularInline):
+    model = models.Comment
 
 
 @admin.register(models.FAQ)
@@ -12,6 +17,11 @@ class FAQAdmin(admin.ModelAdmin):
 
 @admin.register(models.QnA)
 class InquiryAdmin(admin.ModelAdmin):
+    fieldsets = (
+        ("기본정보", {"fields": ("title", "contents", "email", "message")}),
+        ("부가정보", {"fields": ("is_phone", "is_email")}),
+        ("기타", {"fields": ("category", "status")}),
+    )
     list_display = (
         "title",
         "created",
@@ -22,10 +32,4 @@ class InquiryAdmin(admin.ModelAdmin):
     )
     list_filter = ("category",)
     search_fields = ["title", "email", "message"]
-
-    def comment(self, obj):
-        c = obj.comment.all()
-        comment_list = list()
-        for co in c:
-            comment_list.append(co)
-        return len(comment_list)
+    inlines = (CommentInline,)

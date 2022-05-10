@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse, reverse_lazy
 from django.core.paginator import Paginator, EmptyPage
-from django.views.generic import DetailView, UpdateView, DeleteView
+from django.views.generic import DetailView, UpdateView, DeleteView, FormView
 from . import models
 from . import forms
 
@@ -24,6 +24,7 @@ def home(request):
         return redirect("/")
 
 
+"""
 def QnA(request):
     QnA_form = forms.CategoryForm()
     if request.method == "POST":
@@ -50,6 +51,17 @@ def QnA(request):
         "posts/QnA.html",
         {"QnA_form": QnA_form, "QnA": QnA},
     )
+"""
+
+
+class CreateQnAView(FormView):
+    form_class = forms.QnACreateForm
+    template_name = "posts/QnA.html"
+
+    def form_valid(self, form):
+        qna = form.save()
+        qna.save()
+        return redirect(reverse("posts:QnA_detail", kwargs={"pk": qna.pk}))
 
 
 class QnA_detail(DetailView):

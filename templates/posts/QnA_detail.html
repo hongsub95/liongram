@@ -1,31 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    카테고리:{{qna.category}}
-    <hr/>
-    제목 : {{qna.title}}
-    <hr/>
-    내용 : {{qna.contents}}
-    <hr/>
-    <p><b>댓글 목록</b></p>
-    {% for c in qna.Comment.all  %}
-        <li>{{c.comment}}</li> <a href="{% url 'posts:comment_edit' qna_pk=qna.pk comment_pk=c.pk %}">수정하기</a> 
-        <form method="POST" action="{% url 'posts:comment_delete' qna_pk=qna.pk comment_pk=c.pk %}">
-            {% csrf_token %}
-            <input type="submit" value="DELETE">
-        </form>
-    {% empty %}
-        <p>아직 댓글이 없습니다.</p>
-    {% endfor %}
-    <hr/>
-    <a href="{% url 'posts:comment' qna.pk %}">댓글 달기</a>
-    <a href="{% url 'posts:QnA_edit' qna.pk %}">수정하기</a>
-    <a href="{% url 'posts:QnA_delete' qna.pk %}">삭제하기</a>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}   
+카테고리:{{qna.category}}
+<hr/>
+제목 : {{qna.title}}
+<hr/>
+내용 : {{qna.contents}}
+<hr/>
+<p><b>댓글 목록</b></p>
+{% for c in qna.Comment.all  %}
+    <li>{{c.comment}}</li> <a href="{% url 'posts:comment_edit' qna_pk=qna.pk comment_pk=c.pk %}">수정하기</a> 
+    <form method="POST" action="{% url 'posts:comment_delete' qna_pk=qna.pk comment_pk=c.pk %}">
+        {% csrf_token %}
+        <input type="submit" value="DELETE">
+    </form>
+{% empty %}
+    <p>아직 댓글이 없습니다.</p>
+{% endfor %}
+<hr/>
+<a href="{% url 'posts:comment' qna.pk %}">댓글 달기</a>
+<a href="{% url 'posts:QnA_edit' qna.pk %}">수정하기</a>
+<a href="{% url 'posts:QnA_delete' qna.pk %}">삭제하기</a>
+{% endblock content %}
+
