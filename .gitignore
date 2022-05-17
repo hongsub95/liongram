@@ -39,4 +39,4 @@ cython_debug/
 uploads/
 node_modules/
 .idea`
-config/static/tailwind.output.css
+static/tailwind.output.css
