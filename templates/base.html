@@ -5,12 +5,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href='{% static 'tailwind.output.css' %}'>
+    <link rel="stylesheet" href='{% static 'common.css' %}'>
     <title>liongram</title>
 </head>
-<body>
-    <header>
-        <a href="{% url 'posts:home' %}">Liongram</a>
+<body class = "t-text-gray-900 t-mt-24 t-font-light">
+    <header class = "t-container t-max-w-full t-inset-0 t-flex t-items-center t-justify-between t-px-3 t-h-20 t-border-b t-border-gray-500 t-fixed t-bg-white">
+        <a href="{% url 'posts:home' %}" class="t-text-xl t-pl-3 ">
+            <span class = "t-text-red-600">Liongram</span>
+        </a>
+        <ul class = "t-flex t-items-center t-text-sm t-font-bold t-h-full">
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'accounts:logout' %}" class="t-ml-8 t-border-b-2 t-border-white t-h-full t-flex t-items-center">로그아웃</a></li>
+            {% else %}
+                <li><a href="{% url 'accounts:login' %}" class="t-ml-8 t-border-b-2 t-border-white t-h-full t-flex t-items-center">로그인</a></li>
+                <li><a href="{% url 'accounts:signup' %}" class="t-ml-8 t-border-b-2 t-border-white t-h-full t-flex t-items-center">회원가입</a></li>
+            {% endif %}
+                
+        </ul>
     </header>
     
     {% block content %}
