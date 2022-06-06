@@ -18,7 +18,7 @@ class FAQAdmin(admin.ModelAdmin):
 @admin.register(models.QnA)
 class InquiryAdmin(admin.ModelAdmin):
     fieldsets = (
-        ("기본정보", {"fields": ("title", "contents", "email", "message")}),
+        ("기본정보", {"fields": ("title", "contents", "writer","email", "message")}),
         ("부가정보", {"fields": ("is_phone", "is_email")}),
         ("기타", {"fields": ("category", "status")}),
     )

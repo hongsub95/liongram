@@ -8,21 +8,17 @@ from django.views.generic import FormView
 class LoginView(FormView):
     template_name = "accounts/login.html"
     form_class = accounts_forms.LoginForm
-    success_url = reverse_lazy("posts:home")
 
     def form_valid(self, form):
         email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password")
-        username = form.cleaned_data.get("username")
-        user = authenticate(self.request, email=email, password=password,username=username)
-        print(user)
+        user = authenticate(self.request, username=email, password=password)
         if user is not None:
             login(self.request, user)
         return super().form_valid(form)
     
     def get_success_url(self):
         next_arg = self.request.GET.get("next")
-        print(next_arg)
         if next_arg is not None:
             return next_arg
         else:
@@ -45,10 +41,9 @@ def SignupView(request):
             form.save()
             email = form.cleaned_data.get("email")
             password = form.cleaned_data.get("password")
-            username = form.cleaned_data.get("username")
-            user = authenticate(request, email=email, password=password, username=username)
+            user = authenticate(request, username=email, password=password)
             if user is not None:
                 login(request, user)  
-            return redirect("posts:home")
-        else:
-            return redirect("accounts:signup")
+                return redirect(reverse("posts:home"))
+        return render(request,"accounts/signup.html",{"form":form})
+        

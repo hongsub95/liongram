@@ -3,11 +3,11 @@ from users import models as users_models
 
 
 class LoginForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput(attrs={"placeholder": "패스워드를 적어주세요"}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"placeholder": "패스워드를 적어주세요"}),label="패스워드")
     
     class Meta:
         model = users_models.User
-        fields = ("email", "password")
+        fields = ("email",)
         widgets = {
             "email": forms.EmailInput(attrs={"placeholder": "이메일을 적어주세요"})
         }
@@ -17,7 +17,6 @@ class LoginForm(forms.ModelForm):
         password = self.cleaned_data.get("password")
         try:
             user = users_models.User.objects.get(email=email)
-            print(user)
             if user.check_password(password):
                 return self.cleaned_data
             else:
@@ -38,10 +37,11 @@ class SignupForm(forms.ModelForm):
 
     class Meta:
         model = users_models.User
-        fields = ("email", "username")
+        fields = ("email","first_name","gender","phone","birthday")
         widgets = {
-            "email": forms.EmailInput(attrs={"placeholder": "이메일을 입력해 주세요"}),
-            "username": forms.TextInput(attrs={"placeholder": "이름을 입력해 주세요"}),
+            "email": forms.TextInput(attrs={"placeholder": "이메일을 입력해 주세요"}),
+            "first_name":forms.TextInput(attrs={"placeholder":"이름을 적어주세요"}),
+            "phone":forms.TextInput(attrs={"placeholder":"전화번호를 입력해주세요"}),
         }
     
     def clean_email(self):
@@ -62,7 +62,9 @@ class SignupForm(forms.ModelForm):
     
     def save(self):
         user = super().save(commit=False)
+        email = self.cleaned_data.get("email")
         password = self.cleaned_data.get("password")
+        user.username = email
         user.set_password(password)
         user.save()
     

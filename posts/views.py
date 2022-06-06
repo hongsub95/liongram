@@ -60,7 +60,9 @@ class CreateQnAView(FormView):
 
     def form_valid(self, form):
         qna = form.save()
+        qna.writer = self.request.user
         qna.save()
+        form.save_m2m()
         return redirect(reverse("posts:QnA_detail", kwargs={"pk": qna.pk}))
 
 

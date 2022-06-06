@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 
 # Create your models here.
@@ -82,6 +83,7 @@ class QnA(models.Model):
         verbose_name="이메일 수신",
     )
     email = models.EmailField(max_length=100, verbose_name="이메일")
+    writer = models.ForeignKey("users.User",related_name="posts",null=True,on_delete=models.CASCADE,verbose_name = "작성자")
     status = models.CharField(
         max_length=12, choices=STATUS_CHOICE, default=STATUS_PENDING, verbose_name="상태"
     )
@@ -117,6 +119,6 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     comment = models.CharField(max_length=300)
-
+    user = models.ForeignKey("users.User",related_name="Comment",null=True,on_delete=models.CASCADE,verbose_name = "작성자")
     class Meta:
         verbose_name_plural = "답변"

@@ -1,5 +1,6 @@
 from django import forms
 from . import models
+from users import models as users_models
 
 
 class CommentForm(forms.ModelForm):
@@ -20,7 +21,9 @@ class QnACreateForm(forms.ModelForm):
             "is_email",
             "category",
         ]
-
+    def save(self):
+        post = super().save(commit=False)
+        return post
 
 class CategoryForm(forms.ModelForm):
     CATEGORY_NORMAL = "일반"

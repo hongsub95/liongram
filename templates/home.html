@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <table class="t-justify-between">
+    <table class="t-flex t-flex-col t-pl-10">
         <thead>
             <tr> 
                 <th>제목</th>
@@ -10,9 +10,9 @@
                 <th>작성일자</th>
             </tr>     
         </thead>
-        <tbody>
+        <tbody class="t-mt-10 t-justify-between">
             {% for QnA in QnA_list %}
-            <tr>
+            <tr class="t-flex">
                 <td>
                     <a href="{% url 'posts:QnA_detail' QnA.pk %}">
                         <span>{{QnA.title }}</span>
@@ -26,7 +26,7 @@
             </tr>
          </tbody>
     </table>
-    <div>
+    <div class="t-m-10 t-rounded-sm t-py-5 t-text-lg t-font-bold t-w-full">
         <a href="{% url 'posts:QnA' %}">문의하기</a>
     </div>    
 

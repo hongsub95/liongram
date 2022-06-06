@@ -513,6 +513,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   left: 0px;
 }
 
+.t-m-10 {
+  margin: 2.5rem;
+}
+
 .t-mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -534,6 +538,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: 0.75rem;
 }
 
+.t-mt-10 {
+  margin-top: 2.5rem;
+}
+
 .t-flex {
   display: flex;
 }
@@ -550,8 +558,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 100%;
 }
 
+.t-w-9\/12 {
+  width: 75%;
+}
+
 .t-max-w-full {
   max-width: 100%;
+}
+
+.t-flex-row {
+  flex-direction: row;
 }
 
 .t-flex-col {
@@ -572,6 +588,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .t-justify-between {
   justify-content: space-between;
+}
+
+.t-rounded-sm {
+  border-radius: 0.125rem;
 }
 
 .t-border {
@@ -616,9 +636,18 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.t-p-10 {
+  padding: 2.5rem;
+}
+
 .t-px-3 {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
+}
+
+.t-py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 
 .t-pb-28 {
@@ -645,6 +674,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 2.5rem;
 }
 
+.t-pl-10 {
+  padding-left: 2.5rem;
+}
+
+.t-text-center {
+  text-align: center;
+}
+
 .t-text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
@@ -653,6 +690,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .t-text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+
+.t-text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 }
 
 .t-font-light {
