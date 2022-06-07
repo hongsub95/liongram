@@ -2,7 +2,7 @@ from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = []  #DEBUG=False면 필수, True이면 없어도 됨
+ALLOWED_HOSTS = ["3.39.233.199"]  #DEBUG=False면 필수, True이면 없어도 됨
 
 DJANGO_APPS += [
     
