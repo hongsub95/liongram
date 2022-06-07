@@ -15,6 +15,8 @@ PROJECT_APPS += [
 
 THIRD_APPS += ["debug_toolbar"]
 
+INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_APPS
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
